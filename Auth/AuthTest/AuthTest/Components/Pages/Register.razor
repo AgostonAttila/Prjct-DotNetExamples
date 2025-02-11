@@ -1,0 +1,42 @@
+﻿@using System.ComponentModel.DataAnnotations
+<h3>Register</h3>
+
+<EditForm Model="@user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="username">Username:</label>
+        <InputText id="username" @bind-Value="user.Username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="user.Password" type="password" />
+    </div>
+    <button type="submit">Register</button>
+</EditForm>
+
+@code {
+    private UserModel user = new UserModel();
+
+    private async Task HandleRegistration()
+    {
+        // Save the username in Preferences
+        Preferences.Set("username", user.Username);
+
+        // Save the password securely
+        await SecureStorage.SetAsync("password", user.Password);
+
+        // Clear the form
+        user = new UserModel();
+    }
+
+    public class UserModel
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+}
