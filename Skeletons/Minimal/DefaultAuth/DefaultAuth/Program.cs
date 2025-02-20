@@ -46,10 +46,20 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(options =>
+    {      
+        options
+            .WithHttpBearerAuthentication(bearer =>
+            {
+                bearer.Token = "your-bearer-token";
+            });
+    });
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapIdentityApi<IdentityUser>();
 
