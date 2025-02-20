@@ -1,0 +1,22 @@
+@CleanFromScratch.API_HostAddress = http://localhost:5248
+
+
+@localhost = http://localhost
+@port = 5248
+
+@Restaurant.API_HostAddress = {{localhost}}:{{port}}
+
+GET {{Restaurant.API_HostAddress}}/api/restaurants/
+Accept: application/json
+
+###
+
+GET {{Restaurant.API_HostAddress}}/api/restaurants/1
+Accept: application/json
+
+###
+POST {{Restaurant.API_HostAddress}}/api/restaurants
+
+{
+    
+}
