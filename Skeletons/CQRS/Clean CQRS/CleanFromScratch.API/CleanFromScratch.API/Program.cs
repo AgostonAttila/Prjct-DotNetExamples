@@ -1,30 +1,20 @@
 using CleanFromScratch.API.Middleware;
 using CleanFromScratch.Appplication.Extensions;
+using CleanFromScratch.Domain.Entities;
 using CleanFromScratch.Infrastructure.Extensions;
 using CleanFromScratch.Infrastructure.Seeders;
+using CleanFromScratch.API.Extensions;
 using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-
-//TODO Scalar
-builder.Services.AddSwaggerGen();
-
-//TODO ProblemDetails
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<RequestTimeLoggingMiddleware>();
-
+builder.AddPresentation();
 builder.Services.AddApplication();
 builder.Services.AddInfrasturcture(builder.Configuration);
-builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
-//.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-//.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
-//.WriteTo.File("Logs/Restaurant-API-.log", rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
-//.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] |{SourceContext} | {NewLine}{Message:lj}{Exception}"));
+
+
 
 var app = builder.Build();
 
@@ -47,6 +37,10 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+app.MapGroup("api/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<User>();
 
 app.UseAuthorization();
 

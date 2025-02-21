@@ -1,4 +1,4 @@
-﻿using CleanFromScratch.Appplication.Restaurants;
+﻿using CleanFromScratch.Application.Users;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +17,10 @@ namespace CleanFromScratch.Appplication.Extensions
 
             services.AddValidatorsFromAssembly(assembly)
                     .AddFluentValidationAutoValidation();
+
+            services.AddScoped<IUserContext,UserContext>();
+
+            services.AddHttpContextAccessor();
         }
     }
 }

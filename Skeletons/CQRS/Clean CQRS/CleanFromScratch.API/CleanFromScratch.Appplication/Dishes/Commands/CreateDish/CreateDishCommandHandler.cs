@@ -5,13 +5,15 @@ using CleanFromScratch.Domain.Constants;
 using CleanFromScratch.Domain.Entities;
 using CleanFromScratch.Domain.Exceptions;
 using CleanFromScratch.Domain.Repositories;
+using CleanFromScratch.Domain.Interfaces;
 
 namespace CleanFromScratch.Application.Dishes.Commands.CreateDish;
 
 public class CreateDishCommandHandler(ILogger<CreateDishCommandHandler> logger,
     IRestaurantsRepository restaurantsRepository,
     IDishesRepository dishesRepository,
-    IMapper mapper
+    IMapper mapper,
+    IRestaurantAuthorizationService restaurantAuthorizationService
     ) : IRequestHandler<CreateDishCommand, int>
 {
     public async Task<int> Handle(CreateDishCommand request, CancellationToken cancellationToken)
@@ -20,8 +22,8 @@ public class CreateDishCommandHandler(ILogger<CreateDishCommandHandler> logger,
         var restaurant = await restaurantsRepository.GetByIdAsync(request.RestaurantId);
         if (restaurant == null) throw new NotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
 
-        //if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Update))
-        //    throw new ForbidException();
+        if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Create))
+            throw new ForbidException();
 
         var dish = mapper.Map<Dish>(request);
 

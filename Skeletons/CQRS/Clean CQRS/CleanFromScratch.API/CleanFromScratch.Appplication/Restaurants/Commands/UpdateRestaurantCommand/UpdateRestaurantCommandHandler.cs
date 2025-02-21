@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CleanFromScratch.Domain.Constants;
 using CleanFromScratch.Domain.Entities;
 using CleanFromScratch.Domain.Exceptions;
+using CleanFromScratch.Domain.Interfaces;
 using CleanFromScratch.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,7 +13,8 @@ namespace CleanFromScratch.Appplication.Restaurants.Commands.UpdateRestaurantCom
 
 public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommandHandler> logger,
     IMapper mapper,
-    IRestaurantsRepository restaurantsRepository) : IRequestHandler<UpdateRestaurantCommand>
+    IRestaurantsRepository restaurantsRepository,
+    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<UpdateRestaurantCommand>
 {
     public async Task Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
     {
@@ -19,6 +22,9 @@ public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommandHandl
         var restaurant = await restaurantsRepository.GetByIdAsync(request.Id);
         if (restaurant is null)
             throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
+
+        if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Update))
+            throw new ForbidException();
 
         mapper.Map(request, restaurant);   
 
