@@ -7,20 +7,21 @@ using CleanFromScratch.Appplication.Restaurants.Dtos;
 using CleanFromScratch.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CleanFromScratch.API.Endpoints;
 
-public static class RestaurantsEndpoint
+public class RestaurantsEndpoint : IMinimalEndpoint
 {
 
 
-    public static void MapRestaurantsEndpoints(this IEndpointRouteBuilder endpoints)
+    public void MapRoutes(IEndpointRouteBuilder routeBuilder)
     {
+        var restaurantsGroup = routeBuilder.MapGroup("api/restaurants")
+            .WithTags("Restaurants endpoints");
 
-       
-
-        endpoints.MapGet("/", async (IMediator mediator, [AsParameters] GetAllRestaurantsQuery query) =>
+        restaurantsGroup.MapGet("/", async ([FromServices] IMediator mediator, [AsParameters] GetAllRestaurantsQuery query) =>
         {
             var restaurants = await mediator.Send(query);
             return Results.Ok(restaurants);
@@ -28,7 +29,7 @@ public static class RestaurantsEndpoint
         .AllowAnonymous()
         .Produces<IEnumerable<RestaurantDto>>(StatusCodes.Status200OK);
 
-        endpoints.MapGet("/{id}", async (IMediator mediator, int id) =>
+        restaurantsGroup.MapGet("/{id}", async ([FromServices] IMediator mediator, int id) =>
         {
             var restaurant = await mediator.Send(new GetRestaurantsByIdQuery(id));
             return Results.Ok(restaurant);
@@ -36,14 +37,14 @@ public static class RestaurantsEndpoint
         .RequireAuthorization()
         .Produces<RestaurantDto>(StatusCodes.Status200OK);
 
-        endpoints.MapPost("/", [Authorize(Roles = UserRoles.Owner)] async (IMediator mediator, CreateRestaurantCommand command) =>
+        restaurantsGroup.MapPost("/", [Authorize(Roles = UserRoles.Owner)] async ([FromServices] IMediator mediator, [FromBody] CreateRestaurantCommand command) =>
         {
             int id = await mediator.Send(command);
             return Results.Created($"/api/restaurants/{id}", null);
         })
         .RequireAuthorization();
 
-        endpoints.MapPatch("/{id}", async (IMediator mediator, int id, UpdateRestaurantCommand command) =>
+        restaurantsGroup.MapPatch("/{id}", async ([FromServices] IMediator mediator, int id, [FromBody] UpdateRestaurantCommand command) =>
         {
             command.Id = id;
             await mediator.Send(command);
@@ -53,7 +54,7 @@ public static class RestaurantsEndpoint
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
 
-        endpoints.MapDelete("/{id}", async (IMediator mediator, int id) =>
+        restaurantsGroup.MapDelete("/{id}", async ([FromServices] IMediator mediator, int id) =>
         {
             await mediator.Send(new DeleteRestaurantCommand(id));
             return Results.NoContent();

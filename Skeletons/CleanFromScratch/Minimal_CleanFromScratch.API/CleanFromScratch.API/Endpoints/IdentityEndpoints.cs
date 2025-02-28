@@ -5,32 +5,36 @@ using CleanFromScratch.Domain.Constants;
 using CleanFromScratch.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 
 namespace CleanFromScratch.API.Endpoints;
 
-public static class IdentityEndpoints
+public  class IdentityEndpoints : IMinimalEndpoint
 {
-    public static void MapIdentityEndpoints(this IEndpointRouteBuilder endpoints)
+    public  void MapRoutes( IEndpointRouteBuilder routeBuilder)
     {
-     
+
+        var restaurantsGroup = routeBuilder.MapGroup("api/identity")
+         .WithTags("Identity");
 
 
-        endpoints.MapPatch("/user", [Authorize]
-        async (IMediator mediator, UpdateUserDetailsCommand command) =>
+        restaurantsGroup.MapPatch("/user", [Authorize]
+        async (IMediator mediator, [FromBody] UpdateUserDetailsCommand command) =>
         {
             await mediator.Send(command);
             return Results.NoContent();
         });
 
-        endpoints.MapPost("/userRole", [Authorize(Roles = UserRoles.Admin)]
-        async (IMediator mediator, AssignUserRoleCommand command) =>
+        restaurantsGroup.MapPost("/userRole", [Authorize(Roles = UserRoles.Admin)]
+        async (IMediator mediator, [FromBody] AssignUserRoleCommand command) =>
         {
             await mediator.Send(command);
             return Results.NoContent();
         });
 
-        endpoints.MapDelete("/userRole", [Authorize(Roles = UserRoles.Admin)] async (IMediator mediator, UnassignUserRoleCommand command) =>
+        restaurantsGroup.MapDelete("/userRole", [Authorize(Roles = UserRoles.Admin)] async ([FromServices] IMediator mediator, [FromBody] UnassignUserRoleCommand command) =>
         {
             await mediator.Send(command);
             return Results.NoContent();

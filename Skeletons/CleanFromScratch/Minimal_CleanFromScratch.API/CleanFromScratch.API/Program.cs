@@ -15,7 +15,7 @@ builder.AddPresentation();
 builder.Services.AddApplication();
 builder.Services.AddInfrasturcture(builder.Configuration);
 
-
+builder.Services.AddMinimalEndpoints();
 
 var app = builder.Build();
 
@@ -39,17 +39,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.RegisterMinimalEndpoints();
+
 app.MapGroup("api/identity")
     .WithTags("Identity")
     .MapIdentityApi<User>();
 
-app.MapGroup("api/restaurants")
-   .WithTags(" Restaurants endpoints")
-   .MapRestaurantsEndpoints();
-
-app.MapGroup("/api/restaurant")
-    .WithTags("Dishes endpoints")
-    .MapDishesEndpoints();
 
 app.UseAuthorization();
 
