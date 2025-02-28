@@ -1,0 +1,24 @@
+API  Controller - Minimal -FastAPI(REPR)
+
+REST GRPC GraphQL
+
+Clean DDD MicroService Vertical
+
+CQRS Repository 
+
+Serilog
+Global Error Handling
+FluentValidation
+Scalar Openapi
+Mapper
+
+HttpContextAccessor
+
+Auth:
+Role Claims Policy
+Auth0
+JWT
+Cookie
+Oauth2
+MFA
+

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clean-architecture-log-consumer-deployment
+  labels:
+    app: clean-architecture-log-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clean-architecture-log-consumer
+  template:
+    metadata:
+      labels:
+        app: clean-architecture-log-consumer
+    spec:
+      containers:
+        - name: clean-architecture-log-consumer
+          image: ahmettugur/clean-architecture-log-consumer
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ElasticSearchConfig__ConnectionString
+              value: http://elasticsearch-service:9200
+            - name: ElasticSearchConfig__PingTimeMilliSeconds
+              value: "10000"
+            - name: RabbitMqConfig__VHostname
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_vhostname
+            - name: RabbitMqConfig__Hostname
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_hostname
+            - name: RabbitMqConfig__Username
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_username
+            - name: RabbitMqConfig__Password
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_password
+            - name: RabbitMqConfig__Port
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_port
+            - name: RabbitMqConfig__Exchange
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_exchange
+            - name: RabbitMqConfig__ExchangeType
+              valueFrom:
+                configMapKeyRef:
+                  name: clean-architecture-configmap
+                  key: rabbitmq_config_exchange_type
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clean-architecture-log-consumer-service
+spec:
+  selector:
+    app: clean-architecture-log-consumer
+  ports:
+    - protocol: TCP
+      port: 8003
+      targetPort: 8080
+      nodePort: 31002
+  type: NodePort
