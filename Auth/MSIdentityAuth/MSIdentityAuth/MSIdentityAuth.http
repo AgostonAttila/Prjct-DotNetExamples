@@ -1,0 +1,6 @@
+@MSIdentityAuth_HostAddress = http://localhost:5153
+
+GET {{MSIdentityAuth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
