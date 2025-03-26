@@ -18,7 +18,8 @@ namespace CleanFromScratch.API.Endpoints
       : base("/api/restaurants")
         {
             WithTags("Restaurants");
-            IncludeInOpenApi();            
+            IncludeInOpenApi();  
+            //this.RequireAuthorization();
         }
         public override void AddRoutes(IEndpointRouteBuilder app)
         {
