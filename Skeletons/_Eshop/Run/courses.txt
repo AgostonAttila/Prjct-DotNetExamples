@@ -1,0 +1,6 @@
+https://www.udemy.com/course/microservices-architecture-and-implementation-on-dotnet
+https://www.udemy.com/course/using-grpc-in-microservices-communication-with-net-5
+https://www.udemy.com/course/net-aspire-and-genai-develop-distributed-architectures
+https://www.udemy.com/course/secure-net-microservices-with-identityserver4-oauth2openid
+https://www.udemy.com/course/deploying-net-microservices-with-k8s-aks-and-azure-devops
+https://www.udemy.com/course/net-backend-bootcamp-modulith-vsa-ddd-cqrs-and-outbox
