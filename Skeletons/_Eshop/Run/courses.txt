@@ -4,3 +4,4 @@ https://www.udemy.com/course/net-aspire-and-genai-develop-distributed-architectu
 https://www.udemy.com/course/secure-net-microservices-with-identityserver4-oauth2openid
 https://www.udemy.com/course/deploying-net-microservices-with-k8s-aks-and-azure-devops
 https://www.udemy.com/course/net-backend-bootcamp-modulith-vsa-ddd-cqrs-and-outbox
+https://www.udemy.com/course/cloud-native-microservices-kubernetes-service-mesh-cicd

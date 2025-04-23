@@ -1,0 +1,78 @@
+@Basket_HostAddress = https://localhost:7212/basket
+@accessToken = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzVG5EQVhCRndoM3hZamxSTE9CUEl6TXE5MHktQmYwTG54akVWQi1mUDgwIn0.eyJleHAiOjE3NDM1NDM4NjQsImlhdCI6MTc0MzU0MzU2NCwianRpIjoiZjYxMDU5NzYtZWM5MS00M2Q0LTkzYTAtZDU0N2M2MGEzZjBkIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9lc2hvcCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI5YmU5YzA0YS05NThlLTQxMDctOTUzZC02NGIzNjk5OTk1ZTEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlc2hvcC1jbGllbnQiLCJzaWQiOiI4OGNkZWE3Zi1mYTA0LTQ0OTctYTIyZC1hYTMxNzk2YTg3MTciLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1lc2hvcCJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6InRlc3QgdGVzdCIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3QiLCJnaXZlbl9uYW1lIjoidGVzdCIsImZhbWlseV9uYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.FfhxsUJKSobDPlYJLFqvk2yfXmZGXRAKM1nlhwqoCmb1oEVd0CMa4ovzJHqm_5DheOX6j3myy1jlPOL6z40oLBfSuRereN2LbhgPzjcEoP33-IvG_Rg0CrXdavV4zKRdLQ7To8FsbgL_uJWP8HXdX2-XTEGtkUm550vEH5nNzyiXG_u8zt-cboTXsoaiutqpuNfwc1Yje04iqpfE7vx-77XXsp47wwzY1YfcZQ3w9oJD_uNQNC9oIzkNhKvMKaiP565Ms0euCzDHcqlRaFEmvMudx0z6wi5rUnv8WrUeqf3WEqJGuOgZiNxAW2rqURcaskzcmg-41_pCayYGn1JAGw
+
+GET {{Basket_HostAddress}}/swn
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+POST {{Basket_HostAddress}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "UserName": "swn",
+    "Items": [
+        {
+        "Quantity": 2,
+        "Color": "Red",
+        "Price": 0,
+        "ProductId": 1,
+        "ProductName": "Solar Powered Flashlight"
+        },
+        {
+        "Quantity": 1,
+        "Color": "Blue",
+        "Price": 0,
+        "ProductId": 2,
+        "ProductName": "Hiking Poles"
+        }
+    ]
+}
+
+###
+
+POST {{Basket_HostAddress}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "UserName": "swn",
+    "Items": [
+        {
+        "Quantity": 3,
+        "Color": "Red",
+        "Price": 0,
+        "ProductId": 1,
+        "ProductName": "Solar Powered Flashlight"
+        },
+        {
+        "Quantity": 4,
+        "Color": "Blue",
+        "Price": 0,
+        "ProductId": 2,
+        "ProductName": "Hiking Poles"
+        },
+        {
+        "Quantity": 5,
+        "Color": "Blue",
+        "Price": 0,
+        "ProductId": 9,
+        "ProductName": "Camping Tent"
+        }
+    ]
+}
+
+###
+
+DELETE {{Basket_HostAddress}}/swn
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+POST http://localhost:8080/realms/eshop/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=eshop-client&scope=email openid&username=test&password=1234

@@ -15,6 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{020027D4-EB7E-48AB-A078-2D4BF81B6160}"
 	ProjectSection(SolutionItems) = preProject
+		dotnet+8+slides.pdf = dotnet+8+slides.pdf
 		EShopMicroservices.postman_collection.json = EShopMicroservices.postman_collection.json
 	EndProjectSection
 EndProject
