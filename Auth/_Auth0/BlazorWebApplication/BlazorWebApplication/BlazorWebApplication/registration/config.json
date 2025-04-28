@@ -1,0 +1,10 @@
+{
+    "AppName": "BlazorWebApplication",
+    "AppDescription": "Blazor Web App application created and registered via Auth0 Templates for .NET",
+    "AppType": "regular",
+    "Callbacks": "https://localhost:7001/callback",
+    "LogoutUrls": "https://localhost:7001/",
+    "AppSettingsFiles": ["./BlazorWebApplication/appsettings.json"],
+    "RegistrationScriptFile": "../../register-with-auth0.cmd",
+    "Verbose": false
+  }
